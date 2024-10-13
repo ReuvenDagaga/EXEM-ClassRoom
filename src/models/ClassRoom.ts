@@ -13,7 +13,6 @@ const ClassRoomSchema = new Schema<IClassRoom>({
     classname: {
     type: String,
     required: [true, "classname is required"],
-    unique: true,
     minlength:[3, "classname must be at least 3 chars long"],
     maxlength: [30, "classname cannot exceed 30 chars!"],
     match: [/^[a-zA-Z0-9]+$/, "classname can only contain letters, numbers"]

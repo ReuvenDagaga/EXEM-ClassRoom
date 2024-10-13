@@ -21,8 +21,9 @@ export const createTeacher = async ( username: string, email: string, password: 
     Teacher.create(newTeacher);
 
     newClassRoom.teacher = newTeacher._id;
-    
+
     ClassRoom.create(newClassRoom);
 
     return newClassRoom._id;
 };
+
