@@ -1,6 +1,8 @@
 import { Types } from "mongoose";
 import ClassRoom ,{ IClassRoom } from "../models/ClassRoom";
 import Teacher, { ITeacher } from "../models/Teacher";
+import Student, { IStudent } from "../models/Student";
+import { Grade } from "../interface/Grade";
 
 
 
@@ -24,4 +26,12 @@ export const createTeacher = async ( username: string, email: string, password: 
 
     return newClassRoom._id;
 };
+
+
+export const updateGrade = async (student: IStudent, newGrades: Grade): Promise<IStudent> => {
+    student.grades.push(newGrades);
+    student.save();
+    return student;
+};
+
 

@@ -1,8 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import Teacher, { ITeacher } from "../models/Teacher";
-import { createTeacher } from "../services/teacherService";
+import { createTeacher, updateGrade } from "../services/teacherService";
 import { Types } from "mongoose";
 import { generateToken } from '../utils/generateToken';
+import { Grade } from "../interface/Grade";
+import Student, { IStudent } from "../models/Student";
 // import { ResponseStructure } from "../types/response";
 
 export const registerTeacher = async (req: Request, res: Response, next: NextFunction ) => {
@@ -17,9 +19,6 @@ export const registerTeacher = async (req: Request, res: Response, next: NextFun
     }
   };
   
-
-
-
   export const loginTeacher = async (req: Request, res: Response) => {
     const { email, password} = req.body;
     const teacher = await Teacher.findOne({ email });
@@ -37,3 +36,23 @@ export const registerTeacher = async (req: Request, res: Response, next: NextFun
     }
 
 
+
+    export const updateStudentGradeById = async (req: Request, res: Response) => {
+        
+        const studentId = req.params.id;
+        if(!studentId){
+            res.status(404).json( {message: "studentId not found"} );
+            return;
+        }
+        const student = await Student.findOne({ studentId });
+        const newGrades: Grade = req.body;
+
+        if(!student || !newGrades){
+            res.status(404).json( {message: "student not found or grades not found"} );
+            return;
+        }
+
+        const updateStudent: IStudent = await updateGrade(student, newGrades);
+        res.json(updateStudent);
+    }
+    
