@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { authMiddleware } from "../middleware/authMiddleware";
-import { changeGradeForStudent, getAllStudent, getAvgForAllStudents, loginTeacher, registerTeacher } from "../controllers/teacherController";
+// import { authMiddleware } from "../middleware/authMiddleware";
+import {  registerTeacher } from "../controllers/teacherController";
 
 const teacherRouter = Router();
 //swagger
@@ -40,10 +40,10 @@ const teacherRouter = Router();
  *         description: Bad request
  */
 teacherRouter.post("/register", registerTeacher);
-teacherRouter.get("/login", loginTeacher);
-teacherRouter.use(authMiddleware);
-teacherRouter.get("/", getAllStudent);
-teacherRouter.get("/getAvgForAllStudents", getAvgForAllStudents);
-teacherRouter.put("/changeGradeForStudent/:id", changeGradeForStudent);
+// teacherRouter.get("/login", loginTeacher);
+// teacherRouter.use(authMiddleware);
+// teacherRouter.get("/", getAllStudent);
+// teacherRouter.get("/getAvgForAllStudents", getAvgForAllStudents);
+// teacherRouter.put("/changeGradeForStudent/:id", changeGradeForStudent);
 
 export default teacherRouter;

@@ -35,7 +35,6 @@ const studentSchema = new Schema<IStudent>({
   password: {
     type: String,
     required: [true, "Password is required"],
-    unique: true,
     minlength:[3, "Password must be at least 3 chars long"],
     maxlength: [30, "Password cannot exceed 30 chars!"],
     match: [/^[a-zA-Z0-9]+$/, "Password can only contain letters, numbers"]
