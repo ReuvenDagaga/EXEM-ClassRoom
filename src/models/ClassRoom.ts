@@ -1,15 +1,12 @@
-import { kMaxLength } from "buffer";
 import mongoose, { Schema, Document, Types } from "mongoose";
-import validator from "validator";
-import { Grade } from "../interface/Grade";
 import { IStudent } from "./Student";
 import { ITeacher } from "./Teacher";
 
 export interface IClassRoom extends Document {
   _id: Types.ObjectId,
   classname: string,
-  teacher: ITeacher,
-  students: IStudent[],
+  teacher: ITeacher['_id'],
+  students: IStudent['_id'][],
 }
 
 const ClassRoomSchema = new Schema<IClassRoom>({
@@ -31,4 +28,4 @@ const ClassRoomSchema = new Schema<IClassRoom>({
     }
 });
 
-export default mongoose.model<IStudent>("ClassRooms", ClassRoomSchema);
+export default mongoose.model<IClassRoom>("ClassRooms", ClassRoomSchema);
