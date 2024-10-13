@@ -7,7 +7,7 @@ export interface ITeacher extends Document {
   username: string,
   email: string,
   password: string,
-  classId: Types.ObjectId
+  classId?: Types.ObjectId
 }
 
 const teacherSchema = new Schema<ITeacher>({

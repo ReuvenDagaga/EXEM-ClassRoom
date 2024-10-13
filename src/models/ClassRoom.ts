@@ -5,8 +5,8 @@ import { ITeacher } from "./Teacher";
 export interface IClassRoom extends Document {
   _id: Types.ObjectId,
   classname: string,
-  teacher: ITeacher['_id'],
-  students: IStudent['_id'][],
+  teacher?: ITeacher['_id'],
+  students?: IStudent['_id'][],
 }
 
 const ClassRoomSchema = new Schema<IClassRoom>({
@@ -20,11 +20,13 @@ const ClassRoomSchema = new Schema<IClassRoom>({
   },
     teacher: {
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Teachers' 
+        ref: 'Teachers',
+        required: false 
     },
     students: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Students'
+        ref: 'Students',
+        required: false
     }
 });
 
