@@ -1,6 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import teacherRouter from './routes/teacherRoutes';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from "./swagger";
+import connectToDB from './DAL/db';
+
 
 
 dotenv.config();
@@ -10,10 +14,12 @@ const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());
+app.use('/swagger',swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+connectToDB();
 // app.use(cookieParser());
 
 app.use("/teacher", teacherRouter);
-app.use("/student", studentRouter);
+// app.use("/student", studentRouter);
 
 // app.use(authMiddleware);
 // app.use("/get", userRouter);
