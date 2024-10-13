@@ -1,11 +1,11 @@
 import { Router } from "express";
+import { registerStudent, loginStudent } from "../controllers/studentController";
 
 const studentRouter = Router();
 
 studentRouter.post("/register", registerStudent);
-studentRouter.get("/login", loginStudent);
-studentRouter.use(authMiddleware);
-studentRouter.get("/", getAllGrade);
+studentRouter.post("/login", loginStudent);
+// studentRouter.use(authMiddleware);
 
 
 export default studentRouter;

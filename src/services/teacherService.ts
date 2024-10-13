@@ -4,9 +4,7 @@ import Teacher, { ITeacher } from "../models/Teacher";
 
 
 
-export const createTeacher = async ( username: string, email: string, password: string, className: string): Promise<Types.ObjectId> => {    
-    const currentTime = Date.now()
-    
+export const createTeacher = async ( username: string, email: string, password: string, className: string): Promise<Types.ObjectId> => {        
     const newClassRoom: IClassRoom = new ClassRoom({
         classname: className,
     });

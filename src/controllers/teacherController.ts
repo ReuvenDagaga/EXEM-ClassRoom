@@ -21,8 +21,8 @@ export const registerTeacher = async (req: Request, res: Response, next: NextFun
 
 
   export const loginTeacher = async (req: Request, res: Response) => {
-    const { username, password} = req.body;
-    const teacher = await Teacher.findOne({username});
+    const { email, password} = req.body;
+    const teacher = await Teacher.findOne({ email });
 
     // if(!teacher || !(await teacher.comparePassword(password))){
 
