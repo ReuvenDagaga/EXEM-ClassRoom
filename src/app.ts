@@ -7,8 +7,6 @@ import { swaggerSpec } from "./swagger";
 import connectToDB from './DAL/db';
 import cookieParser from 'cookie-parser';
 
-
-
 dotenv.config();
 
 const app = express();
@@ -23,11 +21,6 @@ connectToDB();
 app.use(cookieParser());
 app.use("/teacher", teacherRouter);
 app.use("/student", studentRouter);
-
-// app.use(authMiddleware);
-// app.use("/get", userRouter);
-
-
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
