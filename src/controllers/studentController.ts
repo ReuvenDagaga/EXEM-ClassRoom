@@ -26,10 +26,9 @@ export const registerStudent = async (req: Request, res: Response, next: NextFun
   
 
   export const loginStudent = async (req: Request, res: Response) => {
-    const { email , password} = req.body;
+    const { email , password } = req.body;
     const student = await Student.findOne({ email });
     
-    // if(!teacher || !(await teacher.comparePassword(password))){
     if(!student || !password){
          res.status(401).json({massage: "username or password are wrong"})
          return

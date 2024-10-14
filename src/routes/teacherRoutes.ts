@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authMiddleware";
-import {  registerTeacher, loginTeacher, updateStudentGradeById } from "../controllers/teacherController";
+import {  registerTeacher, loginTeacher, updateStudentGradeById, getAllStudents, getAvgForAllStudents, changeStudentGradeById } from "../controllers/teacherController";
 
 const teacherRouter = Router();
 //swagger
@@ -41,10 +41,10 @@ const teacherRouter = Router();
  */
 teacherRouter.post("/register", registerTeacher);
 teacherRouter.post("/login", loginTeacher);
-// teacherRouter.use(authMiddleware);
-teacherRouter.put("/changeGradeForStudent/:id", authMiddleware,  updateStudentGradeById);
-// teacherRouter.get("/", getAllStudent);
-// teacherRouter.get("/getAvgForAllStudents", getAvgForAllStudents);
+teacherRouter.put("/updateGradeForStudent/:id", authMiddleware,  updateStudentGradeById);
+teacherRouter.put("/changeGradeForStudent/:id/:numOfTest", authMiddleware,  changeStudentGradeById);
+teacherRouter.get("/:id", authMiddleware, getAllStudents);
+teacherRouter.get("/getAvgForAllStudents/:id", authMiddleware, getAvgForAllStudents);
 
 export default teacherRouter;
 

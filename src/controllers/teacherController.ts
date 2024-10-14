@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Teacher, { ITeacher } from "../models/Teacher";
-import { createTeacher, updateGrade } from "../services/teacherService";
+import { createTeacher, updateGrade, getAllStudent, changeGrade } from "../services/teacherService";
 import { Types } from "mongoose";
 import { generateToken } from '../utils/generateToken';
 import { Grade } from "../interface/Grade";
@@ -38,21 +38,78 @@ export const registerTeacher = async (req: Request, res: Response, next: NextFun
 
 
     export const updateStudentGradeById = async (req: Request, res: Response) => {
-        
-        const studentId = req.params.id;
-        if(!studentId){
-            res.status(404).json( {message: "studentId not found"} );
-            return;
-        }
-        const student = await Student.findOne({ studentId });
+        const student = await Student.findOne({ _id: req.params.id });
         const newGrades: Grade = req.body;
-
         if(!student || !newGrades){
             res.status(404).json( {message: "student not found or grades not found"} );
             return;
         }
-
+        const teacher = await Teacher.findOne({ classId: student.classId });    
+        if(!teacher){
+            res.status(404).json( {message: "teacher not found or teacher he not in class"} );
+            return;
+        }
         const updateStudent: IStudent = await updateGrade(student, newGrades);
         res.json(updateStudent);
     }
+
+
+    export const getAllStudents = async (req: Request, res: Response) => {
+        const teacher = await Teacher.findOne({ _id: req.params.id });    
+        if(!teacher){
+            res.status(404).json( {message: "teacher not found or teacher he not in class"} );
+            return;
+        }
+        const users = await getAllStudent( teacher );
+        res.json(users);
+    }
     
+
+export const getAvgForAllStudents = async (req: Request, res: Response) => {
+    const teacher = await Teacher.findOne({ _id: req.params.id });      
+    if(!teacher){
+        res.status(404).json( {message: "teacher not found or teacher he not in class"} );
+        return;
+    }
+    const students = await getAllStudent( teacher );
+    const gradesAvg = await claculateGradeAvg( students  );
+    res.json(gradesAvg);
+}
+
+export const claculateGradeAvg = async (students: IStudent[]) => {
+
+    let gradesAvg: number = 0; 
+    let sumOfTest: number = 0; 
+    students.forEach( (student: IStudent) => {
+        if(!student.grades){
+            return;
+        }
+        student.grades.forEach( (grade: Grade) => {
+            gradesAvg += grade.grade;
+            sumOfTest += 1;
+        });
+    });
+    return gradesAvg / sumOfTest;
+};
+
+export const changeStudentGradeById = async (req: Request, res: Response) => {
+    const student = await Student.findOne({ _id: req.params.id });
+    if(!student){
+        res.status(404).json( {message: "student not found"} );
+        return;
+    }
+    const numOfTest: number = Number(req.params.numOfTest);
+    if(!numOfTest){
+        res.status(404).json( {message: "numOfTest not found"} );
+        return;
+    }
+    const newGrades: Grade = req.body;
+    if(!newGrades){
+        res.status(404).json( {message: "newGrades not found"} );
+        return;
+    }
+
+    const updateStudent: IStudent = await changeGrade(student, newGrades, numOfTest);
+    res.json(updateStudent);
+}
+

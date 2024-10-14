@@ -8,8 +8,8 @@ export interface IStudent extends Document {
   username: string,
   email: string,
   password: string,
-  grades: Grade[],
-  classId: Types.ObjectId
+  grades?: Grade[],
+  classId?: Types.ObjectId
 }
 
 const studentSchema = new Schema<IStudent>({
@@ -39,7 +39,7 @@ const studentSchema = new Schema<IStudent>({
     maxlength: [30, "Password cannot exceed 30 chars!"],
     match: [/^[a-zA-Z0-9]+$/, "Password can only contain letters, numbers"]
   },
-  grades:[{type: Schema.Types.ObjectId, ref: "Post"}],
+  grades: [{ type: Object }],
   classId: {
     type: mongoose.Schema.Types.ObjectId
   }
